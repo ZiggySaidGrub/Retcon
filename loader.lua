@@ -4,11 +4,10 @@ Retcon = {
     loadDir = function(workingDir, path)
         local files = Retcon.utils:readDir(workingDir .. path)
         for idx, file in ipairs(files) do
-            -- if Retcon.utils:isDir(workingDir .. path .. file) then
-            if string.sub(file, -4) == ".lua" then
-                Retcon.loadDir(workingDir, path .. file .. "/")
+            if file.type == "directory" then
+                Retcon.loadDir(workingDir, path .. file.name .. "/")
             else
-                assert(SMODS.load_file(path .. file))()
+                assert(SMODS.load_file(path .. file.name))()
             end
         end
     end,
